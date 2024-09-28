@@ -1,0 +1,140 @@
+return {
+    defaultKey = 'N',
+
+    vehicleModes = { 
+        [1] = 'B',
+        [2] = 'A',
+        [3] = 'A+',
+        [4] = 'S',
+        [5] = 'S+',
+        [6] = 'X'
+    },
+
+    vehicleModifications = { 
+        ['B'] = {
+            turbo = false,
+            engine = -1,
+            brakes = -1,
+            transmission = -1,
+            xenonHeadlights = true,
+            xenonHeadlightsColor = 0,
+        },
+        ['A'] = {
+            turbo = false,
+            engine = 1,
+            brakes = 1,
+            transmission = 1,
+            xenonHeadlights = true,
+            xenonHeadlightsColor = 2,
+        },
+        ['A+'] = {
+            turbo = false,
+            engine = 2,
+            brakes = 2,
+            transmission = 2,
+            xenonHeadlights = true,
+            xenonHeadlightsColor = 1,
+        },
+        ['S'] = {
+            turbo = true,
+            engine = 3,
+            brakes = 3,
+            transmission = 3,
+            xenonHeadlights = true,
+            xenonHeadlightsColor = 3,
+        },
+        ['S+'] = {
+            turbo = true,
+            engine = 4,
+            brakes = 3,
+            transmission = 3,
+            xenonHeadlights = true,
+            xenonHeadlightsColor = 4,
+        },
+        ['X'] = {
+            turbo = true,
+            engine = 4,
+            brakes = 3,
+            transmission = 4,
+            xenonHeadlights = true,
+            xenonHeadlightsColor = 8,
+        }
+    },
+
+    vehicleConfig = {
+        ['police'] = {
+            ['B'] = {
+                ['fMass'] = 1500.00,
+                ['fInitialDragCoeff'] = 5.00,
+                ['fInitialDriveForce'] = 0.30,
+                ['fDriveInertia'] = 1.00,
+                ['fClutchChangeRateScaleUpShift'] = 3.00,
+                ['fClutchChangeRateScaleDownShift'] = 3.00,
+                ['fInitialDriveMaxFlatVel'] = 120.00,
+                ['fBrakeForce'] = 1.00,
+                ['fBrakeBiasFront'] = 0.60,
+                ['fTractionCurveMax'] = 2.20,
+                ['fTractionCurveMin'] = 2.10,
+                ['fLowSpeedTractionLossMult'] = 0.20,
+                ['fTractionBiasFront'] = 0.486,
+                ['fTractionLossMult'] = 0.60,
+                ['fSuspensionForce'] = 2.50,
+                ['fSuspensionCompDamp'] = 2.00
+            },
+            ['A'] = {
+                ['fMass'] = 1600.00,
+                ['fInitialDragCoeff'] = 5.00,
+                ['fInitialDriveForce'] = 0.35,
+                ['fDriveInertia'] = 1.10,
+                ['fClutchChangeRateScaleUpShift'] = 4.00,
+                ['fClutchChangeRateScaleDownShift'] = 4.00,
+                ['fInitialDriveMaxFlatVel'] = 130.00,
+                ['fBrakeForce'] = 1.00,
+                ['fBrakeBiasFront'] = 0.60,
+                ['fTractionCurveMax'] = 2.20,
+                ['fTractionCurveMin'] = 2.10,
+                ['fLowSpeedTractionLossMult'] = 0.20,
+                ['fTractionBiasFront'] = 0.486,
+                ['fTractionLossMult'] = 0.60,
+                ['fSuspensionForce'] = 2.50,
+                ['fSuspensionCompDamp'] = 2.00                
+            },
+            ['S'] = {
+                ['fMass'] = 1650.00,
+                ['fInitialDragCoeff'] = 5.00,
+                ['fInitialDriveForce'] = 0.40,
+                ['fDriveInertia'] = 1.20,
+                ['fClutchChangeRateScaleUpShift'] = 5.00,
+                ['fClutchChangeRateScaleDownShift'] = 5.00,
+                ['fInitialDriveMaxFlatVel'] = 140.00,
+                ['fBrakeForce'] = 1.00,
+                ['fBrakeBiasFront'] = 0.60,
+                ['fTractionCurveMax'] = 2.20,
+                ['fTractionCurveMin'] = 2.10,
+                ['fLowSpeedTractionLossMult'] = 0.20,
+                ['fTractionBiasFront'] = 0.486,
+                ['fTractionLossMult'] = 0.60,
+                ['fSuspensionForce'] = 2.50,
+                ['fSuspensionCompDamp'] = 2.00                
+            },
+            ['S+'] = {
+                ['fMass'] = 1700.00,
+                ['fInitialDragCoeff'] = 5.00,
+                ['fInitialDriveForce'] = 0.45,
+                ['fDriveInertia'] = 1.30,
+                ['fClutchChangeRateScaleUpShift'] = 6.00,
+                ['fClutchChangeRateScaleDownShift'] = 6.00,
+                ['fInitialDriveMaxFlatVel'] = 150.00,
+                ['fBrakeForce'] = 1.00,
+                ['fBrakeBiasFront'] = 0.60,
+                ['fTractionCurveMax'] = 2.20,
+                ['fTractionCurveMin'] = 2.10,
+                ['fLowSpeedTractionLossMult'] = 0.20,
+                ['fTractionBiasFront'] = 0.486,
+                ['fTractionLossMult'] = 0.60,
+                ['fSuspensionForce'] = 2.50,
+                ['fSuspensionCompDamp'] = 2.00                
+            }
+        },
+    }
+}
