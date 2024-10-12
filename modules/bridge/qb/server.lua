@@ -1,12 +1,9 @@
-if GetResourceState('qbx_core') == 'started' then return end
-if GetResourceState('qb-core') ~= 'started' then return end
 
+local bridge = {}
 local QBCore = exports['qb-core']:GetCoreObject()
 
 --- @param source integer
-function HasPoliceJob(source)
-    if not source then return end
-
+function bridge.hasPoliceJob(source)
     local player = QBCore.Functions.GetPlayer(source)
 
     if player.PlayerData.job.name == 'police' then
@@ -15,3 +12,5 @@ function HasPoliceJob(source)
 
     return nil
 end
+
+return bridge

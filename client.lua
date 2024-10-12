@@ -1,18 +1,19 @@
 local config = lib.load('config')
+local utils = require 'modules.utils.client'
 local mode = 1
 local vehMode = config.vehicleModes[1]
 
-local function isPoliceVeh(vehicle)
+local function isPoliceVehicle(vehicle)
     local vehModel = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)):lower()
     return config.vehicleConfig[vehModel] ~= nil
 end
 
-local function getVehHandling(vehicle)
+local function getVehicleHandling(vehicle)
     local vehModel = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)):lower()
     return config.vehicleConfig[vehModel] and config.vehicleConfig[vehModel][vehMode]
 end
 
-local function fixVehHandling(vehicle)
+local function fixVehicleHandling(vehicle)
     SetVehicleModKit(vehicle, 0)
     SetVehicleMod(vehicle, 0, GetVehicleMod(vehicle, 0), false)
     SetVehicleMod(vehicle, 1, GetVehicleMod(vehicle, 1), false)
@@ -44,8 +45,7 @@ local function fixVehHandling(vehicle)
 end
 
 local function setVehHandling(vehicle)
-    local handlingConfig = getVehHandling(vehicle)
-    if not handlingConfig then return end
+    local handlingConfig = getVehicleHandling(vehicle)
 
     for key, value in pairs(handlingConfig) do
         if math.type(value) == 'float' then
@@ -57,28 +57,45 @@ local function setVehHandling(vehicle)
         end
     end
 
-    fixVehHandling(vehicle)
+    fixVehicleHandling(vehicle)
 end
 
-local function setVehMods(vehicle)
+local function setVehicleMods(vehicle)
     local modConfig = config.vehicleModifications[vehMode]
-    if not modConfig then return end
+    
+    local modTypes = {
+        engine = 11,
+        brakes = 12,
+        transmission = 13,
+        suspension = 15
+    }
+
+    local function checkAndSetMod(vehicle, modType, modValue)
+        local maxMods = GetNumVehicleMods(vehicle, modType)
+        if modValue > maxMods then
+            modValue = maxMods
+        end
+        SetVehicleMod(vehicle, modType, modValue, false)
+    end
+
+    checkAndSetMod(vehicle, modTypes.engine, modConfig.engine)
+    checkAndSetMod(vehicle, modTypes.brakes, modConfig.brakes)
+    checkAndSetMod(vehicle, modTypes.transmission, modConfig.transmission)
+    checkAndSetMod(vehicle, modTypes.suspension, modConfig.suspension)
 
     ToggleVehicleMod(vehicle, 18, modConfig.turbo)
     ToggleVehicleMod(vehicle, 22, modConfig.xenonHeadlights)
-    SetVehicleMod(vehicle, 11, modConfig.engine, false)
-    SetVehicleMod(vehicle, 12, modConfig.brakes, false)
-    SetVehicleMod(vehicle, 13, modConfig.transmission, false)
     SetVehicleXenonLightsColour(vehicle, modConfig.xenonHeadlightsColor)
 end
 
-local function changeVehMode()
+local function changeVehicleMode()
     local vehicle = cache.vehicle
-    if not vehicle or not isPoliceVeh(vehicle) or not HasPoliceJob() then return end
+    local driverPed = GetPedInVehicleSeat(vehicle, -1)
+
+    if not isPoliceVehicle(vehicle) or not bridge.hasPoliceJob() or not driverPed == cache.ped then return end
 
     local vehModel = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)):lower()
     local availableModes = config.vehicleConfig[vehModel]
-    if not availableModes then return end
 
     local validModes = {}
     for i = 1, #config.vehicleModes do
@@ -89,7 +106,7 @@ local function changeVehMode()
     end
     
     if #validModes == 0 then
-        lib.notify({title = 'Pursuit Mode', description = 'No valid modes for this vehicle.', type = 'error'})
+        utils.notify('No valid modes for this vehicle.', 'error')
         return
     end
 
@@ -97,33 +114,23 @@ local function changeVehMode()
     vehMode = validModes[mode]
     
     local netId = NetworkGetNetworkIdFromEntity(vehicle)
-    TriggerServerEvent('peak_pursuitmode:server:syncVehicle', netId, vehMode)
+    TriggerServerEvent('peak_pursuit:server:syncVehicle', netId, vehMode)
 end
 
-AddStateBagChangeHandler('peak_pursuitmode:vehicleMode', nil, function(bagName, _, value)
+AddStateBagChangeHandler('peak_pursuit:vehicleMode', nil, function(bagName, _, value)
     local entity = tonumber(bagName:match('entity:(%d+)'))
     local vehicle = NetworkGetEntityFromNetworkId(entity)
 
     if vehicle and DoesEntityExist(vehicle) and cache.vehicle == vehicle then
-        lib.notify({
-            title = 'Pursuit Mode',
-            description = ('Changed pursuit mode to %s'):format(value),
-            type = 'inform',
-            duration = 30000,
-        })
+        utils.notify(('Pursuit mode changed to %s'):format(value), 'inform') 
         setVehHandling(vehicle)
-        setVehMods(vehicle)
+        setVehicleMods(vehicle)
     end
 end)
 
 lib.onCache('vehicle', function(newVehicle)
-    if newVehicle and isPoliceVeh(newVehicle) and HasPoliceJob() then
-        lib.notify({
-            title = 'Pursuit Mode',
-            description = ('Last time this vehicle was left on %s pursuit mode'):format(vehMode),
-            type = 'inform',
-            duration = 5000,
-        })
+    if newVehicle and isPoliceVehicle(newVehicle) and bridge.hasPoliceJob() then
+        utils.notify(('Last time this vehicle was left on %s pursuit mode'):format(vehMode), 'inform') 
     end
 end)
 
@@ -131,6 +138,6 @@ lib.addKeybind({
     name = 'pursuitmode',
     description = 'Change pursuit mode (Police only)',
     defaultKey = config.defaultKey,
-    onPressed = changeVehMode
+    onPressed = changeVehicleMode
 })
 

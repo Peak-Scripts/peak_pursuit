@@ -14,6 +14,7 @@ return {
         ['B'] = {
             turbo = false,
             engine = -1,
+            suspension = -1,
             brakes = -1,
             transmission = -1,
             xenonHeadlights = true,
@@ -22,6 +23,7 @@ return {
         ['A'] = {
             turbo = false,
             engine = 1,
+            suspension = 1,
             brakes = 1,
             transmission = 1,
             xenonHeadlights = true,
@@ -30,6 +32,7 @@ return {
         ['A+'] = {
             turbo = false,
             engine = 2,
+            suspension = 2,
             brakes = 2,
             transmission = 2,
             xenonHeadlights = true,
@@ -38,6 +41,7 @@ return {
         ['S'] = {
             turbo = true,
             engine = 3,
+            suspension = 3,
             brakes = 3,
             transmission = 3,
             xenonHeadlights = true,
@@ -46,6 +50,7 @@ return {
         ['S+'] = {
             turbo = true,
             engine = 4,
+            suspension = 3,
             brakes = 3,
             transmission = 3,
             xenonHeadlights = true,
@@ -54,6 +59,7 @@ return {
         ['X'] = {
             turbo = true,
             engine = 4,
+            suspension = 3,
             brakes = 3,
             transmission = 4,
             xenonHeadlights = true,
@@ -120,7 +126,7 @@ return {
             ['S+'] = {
                 ['fMass'] = 1700.00,
                 ['fInitialDragCoeff'] = 5.00,
-                ['fInitialDriveForce'] = 0.45,
+                ['fInitialDriveForce'] = 10.45,
                 ['fDriveInertia'] = 1.30,
                 ['fClutchChangeRateScaleUpShift'] = 6.00,
                 ['fClutchChangeRateScaleDownShift'] = 6.00,

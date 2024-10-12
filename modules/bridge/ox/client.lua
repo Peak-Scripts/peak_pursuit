@@ -1,8 +1,7 @@
-if GetResourceState('ox_core') ~= 'started' then return end
+local bridge = {}
+local Ox = require '@ox_core.lib.init'
 
-Ox = require '@ox_core.lib.init'
-
-function HasPoliceJob()
+function bridge.hasPoliceJob()
     local player = Ox.GetPlayer()
     local groups = player.getGroups()
 
@@ -14,3 +13,5 @@ function HasPoliceJob()
 
     return nil
 end
+
+return bridge

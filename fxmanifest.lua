@@ -3,11 +3,12 @@ game 'gta5'
 
 author 'Peak Scripts | KostaZ'
 description 'Pursuit Mode script'
-version '1.0.0'
+version '1.1.0'
 lua54 'yes'
 
 shared_scripts {
-	'@ox_lib/init.lua',
+    '@ox_lib/init.lua',
+    'shared/*.lua'
 }
 
 client_scripts {
@@ -21,5 +22,6 @@ server_scripts {
 }
 
 files {
-	'config.lua'
+	'config.lua',
+	'modules/**',
 }

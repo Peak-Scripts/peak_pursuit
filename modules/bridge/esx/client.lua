@@ -1,8 +1,8 @@
-if GetResourceState('es_extended') ~= 'started' then return end
+local bridge = {}
 
-local ESX = exports['es_extended']:getSharedObject()
+local ESX = exports.es_extended:getSharedObject()
 
-function HasPoliceJob()
+function bridge.hasPoliceJob()
     local playerData = ESX.GetPlayerData()
     local playerJob = playerData.job.name
 
@@ -12,3 +12,5 @@ function HasPoliceJob()
 
     return nil
 end
+
+return bridge

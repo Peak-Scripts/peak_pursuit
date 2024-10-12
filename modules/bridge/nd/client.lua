@@ -1,8 +1,6 @@
-if GetResourceState('ND_Core') ~= 'started' then return end
+local bridge = {}
 
-function HasPoliceJob(source)
-    if not source then return end
-
+function bridge.hasPoliceJob()
     local player = exports.ND_Core:getPlayer()
     local playerJob = player.getData('job')
     
@@ -12,3 +10,5 @@ function HasPoliceJob(source)
 
     return nil
 end
+
+return bridge
