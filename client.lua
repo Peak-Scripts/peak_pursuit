@@ -62,7 +62,7 @@ end
 
 local function setVehicleMods(vehicle)
     local modConfig = config.vehicleModifications[vehMode]
-    
+
     local modTypes = {
         engine = 11,
         brakes = 12,
@@ -104,7 +104,7 @@ local function changeVehicleMode()
             validModes[#validModes + 1] = mode
         end
     end
-    
+
     if #validModes == 0 then
         utils.notify('No valid modes for this vehicle.', 'error')
         return
@@ -112,7 +112,7 @@ local function changeVehicleMode()
 
     mode = (mode % #validModes) + 1
     vehMode = validModes[mode]
-    
+
     local netId = NetworkGetNetworkIdFromEntity(vehicle)
     TriggerServerEvent('peak_pursuit:server:syncVehicle', netId, vehMode)
 end
@@ -122,15 +122,19 @@ AddStateBagChangeHandler('peak_pursuit:vehicleMode', nil, function(bagName, _, v
     local vehicle = NetworkGetEntityFromNetworkId(entity)
 
     if vehicle and DoesEntityExist(vehicle) and cache.vehicle == vehicle then
-        utils.notify(('Pursuit mode changed to %s'):format(value), 'inform') 
+        utils.notify(('Pursuit mode changed to %s'):format(value), 'inform')
         setVehHandling(vehicle)
         setVehicleMods(vehicle)
+        LocalPlayer.state.pursuit = value
     end
 end)
 
 lib.onCache('vehicle', function(newVehicle)
     if newVehicle and isPoliceVehicle(newVehicle) and bridge.hasPoliceJob() then
-        utils.notify(('Last time this vehicle was left on %s pursuit mode'):format(vehMode), 'inform') 
+        utils.notify(('Last time this vehicle was left on %s pursuit mode'):format(vehMode), 'inform')
+        LocalPlayer.state.pursuit = vehMode
+    elseif LocalPlayer.state.pursuit then
+        LocalPlayer.state.pursuit = nil
     end
 end)
 
